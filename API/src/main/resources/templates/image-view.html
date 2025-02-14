@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Display Image</title>
+</head>
+<body>
+    <h2>Image Preview</h2>
+
+<form th:action="@{/postImage}" method="post" enctype="multipart/form-data">
+<input type="file" id="image" name="image" accept="image/*" />
+<table>
+	<tr>
+		<td>Product name:</td>
+		<td><input type="text" id="pname" name="pname"></td>
+	</tr>
+	<tr>
+		<td>Company number:</td>
+		<td><input type="number" id="pcomp" name="pcomp"></td>
+	</tr>
+	<tr>
+		<td>Product size:</td>
+		<td><input type="number" id="psize" name="psize"></td>
+	</tr>
+	<tr>
+		<td>Product price:</td>
+		<td><input type="number" id="pprice" name="pprice"></td>
+	</tr>
+</table>
+<button type="submit">Submit</button>
+</form>
+
+<div th:if="${message}">
+        <p th:text="${message}"></p>  <!-- Display success/failure message -->
+    </div>
+<!--   
+<img src="http://localhost:9191/image/img.png" alt="Loaded Image" style="max-width: 500px;">
+<img src="http://localhost:9191/image/cat.png" alt="Loaded Image" style="max-width: 500px;">
+ --> 
+<p>------------------------------------------------------------------</p>
+    <!-- Display image dynamically using the filename passed from the controller -->
+        <div th:each="fileName : ${list}">
+    <div th:if="${fileName != null}">
+        <img th:src="@{'http://localhost:9191/image/' + ${fileName.pid}}" 
+             alt="Loaded Image" 
+             style="max-width: 500px;">
+        <p th:text="${fileName.pname}"></p>
+        <p th:text="${fileName.pprice}"></p>
+    </div>
+    <div th:if="${fileName == null}">
+        <p>No image available</p>
+    </div>
+</div>
+
+</body>
+</html>

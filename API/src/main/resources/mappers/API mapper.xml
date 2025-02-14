@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.API.dao.StorageDAO">
+
+<select id="findAllImages" resultType="ImageData">
+	select * from image_data
+</select>
+
+<insert id="addProduct" parameterType="Product">
+	insert into product (pname, pcomp, psize, pprice) values (#{pname}, #{pcomp}, #{psize}, #{pprice})
+</insert>
+
+<select id="findAllProducts" resultType="ProductDTO">
+	select p.pid, p.pname, p.pcomp, p.pprice, p.psize, i.name, i.type  from product p left join image_data i on p.pid = i.pid
+</select>
+</mapper>
