@@ -59,11 +59,77 @@ public class StorageController {
 		return "addProduct";
 	}
 	
+	
+	//Pages
 	@GetMapping("index")
 	public String index() {
 		return "index";
 	}
 	
+	@GetMapping("about")
+	public String about() {
+		return "about";
+	}
+	
+	@GetMapping("blog")
+	public String blog() {
+		return "blog";
+	}
+	
+	@GetMapping("blog-details")
+	public String blogDetails() {
+		return "blog-details";
+	}
+	
+	@GetMapping("contact")
+	public String contact() {
+		return "contact";
+	}
+	
+	@GetMapping("image-view")
+	public String imageView() {
+		return "image-view";
+	}
+	
+	@GetMapping("portfolio")
+	public String portfolio() {
+		return "portfolio";
+	}
+	
+	@GetMapping("portfolio-details")
+	public String portfolioDetails() {
+		return "portfolio-details";
+	}
+	
+	@GetMapping("pricing")
+	public String pricing() {
+		return "pricing";
+	}
+	
+	@GetMapping("service-details")
+	public String serviceDetails() {
+		return "service-details";
+	}
+	
+	@GetMapping("services")
+	public String services() {
+		return "services";
+	}
+	
+	@GetMapping("starter-page")
+	public String starterPage() {
+		return "starter-page";
+	}
+	
+	@GetMapping("team")
+	public String team() {
+		return "team";
+	}
+	
+	@GetMapping("testimonials")
+	public String testimonials() {
+		return "testimonials";
+	}
 
 	
 }
