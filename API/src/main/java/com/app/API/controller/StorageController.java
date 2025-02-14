@@ -116,9 +116,9 @@ public class StorageController {
 		return "services";
 	}
 	
-	@GetMapping("starter-page")
-	public String starterPage() {
-		return "starter-page";
+	@GetMapping("login")
+	public String login() {
+		return "login";
 	}
 	
 	@GetMapping("team")
