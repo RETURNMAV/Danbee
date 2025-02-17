@@ -1,0 +1,27 @@
+
+    <div th:fragment="admin_nav" class="container position-relative d-flex align-items-center">
+
+      <a href="index" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">what</h1><span>.</span>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li class="dropdown"><a href="admin_productList"><span>Products</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li class="dropdown"><a href="admin_productList_Housewares"><span>Housewares</span></a></li>
+              <li class="dropdown"><a href="admin_productList_Cosmetics"><span>Cosmetics</span></a></li>
+            </ul>
+          </li>
+          <li><a href="admin_businessList">Business</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <div class="header-social-links">
+        <a href="index">To Site</a>
+      </div>
+
+    </div>
