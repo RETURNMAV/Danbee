@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Product List</title>
+  <div th:replace="~{fragments/css :: css}"></div>
+  <!-- =======================================================
+  * Template Name: Company
+  * Template URL: https://bootstrapmade.com/company-free-html-bootstrap-template/
+  * Updated: Aug 07 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  
+  <style>
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Image fills the box, but may be cropped */
+}
+  </style>
+</head>
+
+<body class="blog-page">
+
+  <!-- nav bar -->
+<header  id="header" class="header d-flex align-items-center sticky-top">
+<div th:replace="~{fragments/admin_nav :: admin_nav}"></div>
+</header>
+
+  <main class="main">
+	<!-- Hidden input to store the message -->
+<input type="hidden" id="msg" th:value="${msg}">
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var message = document.getElementById("msg").value;
+        if (message) {
+            alert(message);
+        }
+    });
+</script>
+
+	
+    <!-- Page Title -->
+    <div class="page-title light-background">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Houseware</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index">Home</a></li>
+            <li class="current">Houseware</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+	
+
+    <!-- Blog Posts Section -->
+    <section id="blog-posts" class="blog-posts section">
+	
+	<div class="container">
+
+	<!-- Search -->
+	<div class="col-md-12" style="margin:30px">
+		<div class="white_shd full margin_bottom_30" >
+			<div class="table_section padding_infor_info">
+				<div class="table-responsive-sm">
+					<form action="admin_productSearch" method="POST">
+						<div class="row align-items-center w-100">
+							<div class="col-md-8">
+								<div class="input-group">
+									<select class="btn cur-p btn-success" data-toggle="dropdown" name="admin_productDropdown" id="admin_productDropdown">
+										<option value="ByDefault">Select Filter</option>
+										<option value="ByBusiness">By Business</option>
+										<option value="ByRecent">Recent</option>
+									</select>
+									<input type="text" class="form-control" placeholder="Search">
+									<button type="submit" class="btn cur-p btn-success">Search</button>
+								</div>
+							</div>
+							<div class="col-md-3 text-end">
+								<div class="button_block" style="text-align: center;">
+									<button type="button" class="model_bt btn btn-success" data-bs-toggle="modal" data-bs-target="#addProduct">Add product</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<div th:if="${list.isEmpty()}">
+        <h3 style="text-align:center">There is no info</h3>
+    	</div>
+    	<form action="deleteProduct" method="post">
+		<button type="submit" id="deleteProduct" class="btn cur-p btn-success">Delete Product</button>
+        <div class="row gy-4" th:if="${not list.isEmpty()}" th:each="entry : ${list}">
+		<!-- each company -->
+	    <div class="page-title light-background">
+	      <div class="container d-lg-flex justify-content-between align-items-center">
+	        <h1 class="mb-2 mb-lg-0" th:text="${entry.key}"></h1>
+	        <nav class="breadcrumbs">
+	          <ol>
+	            <li><a href="">Read more</a></li>
+	          </ol>
+	        </nav>
+	      </div>
+	    </div>
+	    <!-- each company end -->
+	    
+		<!-- Blog Posts Section -->
+		<table class="table">
+			<tr>
+				<td><input type="checkbox" id="selectAll"></td>
+				<td>Product Image</td>
+				<td>Product Name</td>
+				<td>Company Name</td>
+				<td>Product Size</td>
+				<td>Product Price</td>
+			</tr>
+			<tr th:each="product : ${entry.value}" th:onclick="|productDetail(${product.pid})|">
+				<td><input type="checkbox" class="selectProduct" value="${product.pid}" name="pid"></td>
+				<td><img style="width:50px; height: 50px" th:src="@{'http://localhost:9191/image/' + ${product.pid}}" class="img-fluid" alt=""></td>
+				<td th:text = "${product.pname}"></td>
+				<td th:text="${product.pcomp}"></td>
+				<td th:text="${product.psize}"></td>
+				<td th:text="${product.pprice}"></td>
+			</tr>
+		</table>
+          <!-- End post list item -->
+        </div>
+        </form>
+        </div>
+
+    </section>
+    <!-- /Blog Posts Section -->
+
+
+<!-- Product Detail Modal -->
+	<div class="modal fade" id="detailProduct">
+	<div class="modal-dialog" style="max-width: 900px">
+	<div class="modal-content">
+	<!-- Modal Header -->
+		<div class="modal-header">
+			<h4 class="modal-title">Product Detail</h4>
+			<button type="button" class="btn-close" aria-label="Close"></button>
+		</div>
+	<!-- Modal body -->
+ 		<div class="modal-body">
+ 			<div class="col-md-6">
+ 				<div class="white_shd full margin_bottom_30" style="width:800px">	
+ 					<div class="table_section padding_infor_info">
+ 						<div class="table-responsive-sm">
+ 							<div class="table-responsive-sm">
+ 								<div class="row">
+ 									<div class="col-md-6 col-sm-12" style="text-align:center; padding: 0; height: 100%; overflow: hidden;">
+									    <section id="hero" class="hero section dark-background" style="height: 400px; width: 400px; overflow: hidden; margin-left: 20px">
+									        <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000" style="height: 400px; width: 400px">
+									
+									            <div class="carousel-item active" style="height: 400px; width: 400px;">
+									                <img src="/assets/img/hero-carousel/hero-carousel-1.jpg" alt="" style="width: auto; height: 400px;object-fit:cover">
+									            </div><!-- End Carousel Item -->
+									
+									            <div class="carousel-item" style="height: 400px; width: 400px;">
+									                <img src="/assets/img/hero-carousel/hero-carousel-2.jpg" alt="" style="width: auto; height: 400px;object-fit:cover">
+									            </div><!-- End Carousel Item -->
+									
+									            <div class="carousel-item" style="height: 400px; width: 400px;">
+									                <img src="/assets/img/hero-carousel/hero-carousel-3.jpg" alt="" style="width: auto; height: 400px;object-fit:cover">
+									            </div><!-- End Carousel Item -->
+									
+									            <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev" style="height: 400px">
+									                <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+									            </a>
+									
+									            <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next" style="height: 400px">
+									                <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+									            </a>
+									
+									            <ol class="carousel-indicators"></ol>
+									
+									        </div>
+									    </section><!-- /Hero Section -->
+									</div>
+
+ 									<div class="col-md-6 col-sm-12">
+ 										<table class="table">
+ 											<tr>
+ 												<td>Product Name:</td>
+ 												<td id="productName"></td>
+ 												
+ 											</tr>
+ 											<tr>
+ 												<td>Company Name:</td>
+ 												<td id="companyName"></td>
+ 											</tr>
+ 											<tr>
+ 												<td>Product size:</td>
+ 												<td id="productSize"></td>
+ 											</tr>
+ 											<tr>
+ 												<td>Product price:</td>
+ 												<td id="productPrice"></td>
+ 											</tr>
+ 										</table>
+ 									</div>
+ 								</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn cur-p btn-success" id="edit"  onclick="admin_productEdit($(this).data('pid'))">Edit Product</button>
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								</div>
+ 						</div>
+ 					</div>
+ 				</div>
+ 			</div>
+ 		</div>
+		</div>
+		</div>
+		</div>
+<!-- Product Detail Modal End -->
+
+<!-- Product edit Modal -->
+	<div class="modal fade" id="editProduct">
+	<div class="modal-dialog" style="max-width: 900px">
+	<div class="modal-content">
+	<!-- Modal Header -->
+		<div class="modal-header">
+			<h4 class="modal-title">Edit Product</h4>
+			<button type="button" class="btn-close" aria-label="Close"></button>
+		</div>
+	<!-- Modal body -->
+ 		<div class="modal-body">
+ 			<div class="col-md-6">
+ 				<div class="white_shd full margin_bottom_30" style="width:800px">	
+ 					<div class="table_section padding_infor_info">
+ 					<form th:action="@{/editProduct}" method="post" enctype="multipart/form-data" onsubmit="return valForm()">
+ 						<div class="table-responsive-sm">
+ 							<div class="table-responsive-sm">
+ 								<div class="row">
+ 									<div class="col-md-6 col-sm-12" style="text-align:center">
+ 										<img alt="editProductImage" th:src="@{/images/no_image.jpg}" id="editProductImage" class="image-fluid" style="max-width: 100%; max-height: 300px; object-fit: contain;">
+ 										<br>
+ 										<span id="productNum"></span>
+ 									</div>
+ 									<div class="col-md-6 col-sm-12">
+ 										<input type="hidden" id="editPid" name="pid">
+ 										<table class="table">
+	 										<tr>
+												<td>Product Image:</td>
+												<td><input type="file" id="editImage" name="image" accept="image/*"  /></td>
+											</tr>
+ 											<tr>
+ 												<td>Product Name:</td>
+ 												<td><input type="text" id="editProductName" name="pname"></td>
+ 											</tr>
+ 											<tr>
+ 												<td>Company Name:</td>
+ 												<td><input type="text" id="editCompanyName" name="pcomp"></td>
+ 											</tr>
+ 											<tr>
+ 												<td>Product size:</td>
+ 												<td><input type="text" id="editProductSize" name="psize"></td>
+ 											</tr>
+ 											<tr>
+ 												<td>Product price:</td>
+ 												<td><input type="text" id="editProductPrice" name="pprice"></td>
+ 											</tr>
+ 										</table>
+ 									</div>
+ 								</div>
+								</div>
+								<div class="modal-footer">
+									<button type="submit" class="btn btn-success" id="editProductButton">Edit Product</button>
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								</div>
+ 						</div>
+ 						</form>
+ 					</div>
+ 				</div>
+ 			</div>
+ 		</div>
+		</div>
+		</div>
+		</div>
+<!-- Product edit Modal End -->
+
+<!-- Add Product Modal -->
+	<div class="modal fade" id="addProduct">
+	<div class="modal-dialog" style="max-width: 900px">
+	<div class="modal-content">
+	<!-- Modal Header -->
+		<div class="modal-header">
+			<h4 class="modal-title">Add Product</h4>
+			<button type="button" class="btn-close" aria-label="Close"></button>
+		</div>
+	<!-- Modal body -->
+ 		<div class="modal-body">
+ 			<div class="col-md-6">
+ 				<div class="white_shd full margin_bottom_30" style="width:800px">	
+ 					<div class="table_section padding_infor_info">
+ 						<div class="table-responsive-sm">
+ 							<form th:action="@{/postProduct}" method="post" enctype="multipart/form-data" onsubmit="return valForm()">
+ 							<div class="table-responsive-sm">
+								<table class="table">
+									<tr>
+										<td>Product Image:</td>
+										<td><input type="file" id="image" name="image" accept="image/*"  /></td>
+									</tr>
+									<tr>
+										<td>Product name:</td>
+										<td><input type="text" id="pname" name="pname"></td>
+									</tr>
+									<tr>
+										<td>Company:</td>
+										<td><input type="text" id="pcomp" name="pcomp"></td>
+									</tr>
+									<tr>
+										<td>Product size:</td>
+										<td><input type="number" id="psize" name="psize"></td>
+									</tr>
+									<tr>
+										<td>Product price:</td>
+										<td><input type="number" id="pprice" name="pprice"></td>
+									</tr>
+								</table>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-success">Add Product</button>
+								</div>
+ 							</form>
+ 						</div>
+ 					</div>
+ 				</div>
+ 			</div>
+ 		</div>
+		</div>
+		</div>
+		</div>
+<!-- Add Product Modal End -->
+
+
+    <!-- Blog Pagination Section -->
+    <section id="blog-pagination" class="blog-pagination section">
+
+      <div class="container">
+        <div class="d-flex justify-content-center">
+          <ul>
+            <li><a href="#"><i class="bi bi-chevron-left"></i></a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#" class="active">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li>...</li>
+            <li><a href="#">10</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i></a></li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+    <!-- /Blog Pagination Section -->
+
+  </main>
+
+
+
+
+<!-- footer -->
+  <footer id="footer" class="footer dark-background">
+  <div th:replace="~{fragments/footer :: footer}"></div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <div th:replace="~{fragments/js :: js}"></div>
+  
+  <script>
+  const selectAllCheckbox = document.getElementById('selectAll');
+  
+  const productCheckboxes = document.querySelectorAll('.selectProduct');
+  
+  selectAllCheckbox.addEventListener('change', function() {
+	  productCheckboxes.forEach(checkbox => {
+		  checkbox.checked = selectAllCheckbox.checked;
+	  });
+  });
+  
+  productCheckboxes.forEach(checkbox => {
+	  checkbox.addEventListener('change', function() {
+		  if(!this.checked) {
+			  selectAllCheckbox.checked=false;
+		  } else if (Array.from(productCheckboxes).every(checkbox => checkbox.checked)) {
+			  selectAllCheckbox.checked=true;
+		  }
+	  });
+  });
+  
+  
+    function productDetail(pid) {
+    	$.ajax({
+    		url:'productDetail',
+    		method: 'GET',
+    		data: {pid: pid},
+    		success: function(result) {
+    			if (result && result.apDetail) {
+    				$('#detailProduct').modal('show');
+    				
+    				const d = result.apDetail;
+    				$('#productName').text(d.pname);
+    				$('#companyName').text(d.pcomp);
+    				$('#productSize').text(d.psize);
+    				$('#productPrice').text(d.pprice);
+    				
+    				var imagePath = d.pid ? 'http://localhost:9191/image/' + d.pid : '/images/no_image.jpg';
+    				console.log(imagePath);
+    				$('#productImage').attr('src', imagePath);
+    				
+    				$('#edit').data('pid', d.pid);
+    			} else {
+    				console.log("No product found");
+    				alert('No product found!');
+    			}
+    		},
+    		error: function(xhr, status, error) {
+    			console.error("Error fetching product details:", error);
+    		}
+    	});
+    }
+    
+    function admin_productEdit(pid) {
+    	$.ajax({
+    		url:'admin_productDetail',
+    		method: 'GET',
+    		data: {pid: pid},
+    		success: function(result) {
+    			if (result && result.apDetail) {
+    				console.log(pid);
+    				
+    				$('#detailProduct').modal('hide');
+    				$('#editProduct').modal('show');
+    				
+    				const e = result.apDetail;
+    				var editImagePath = e.pid ? 'http://localhost:9191/image/' + e.pid : '/images/no_image.jpg';
+    				console.log(editImagePath);
+    				$('#editProductImage').attr('src', editImagePath);
+    				
+    				$('#editPid').val(e.pid);
+    				$('#editProductName').val(e.pname);
+    				$('#editCompanyName').val(e.pcomp);
+    				$('#editProductSize').val(e.psize);
+    				$('#editProductPrice').val(e.pprice);
+    			} else {
+    				console.log("No product found");
+    				alert('No product found!');
+    			}
+    		},
+    		error: function(xhr, status, error) {
+    			console.error("Error fetching product details:", error);
+    		}
+    	});
+    }
+    </script>
+  
+
+</body>
+
+</html>
